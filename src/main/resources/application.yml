@@ -1,0 +1,19 @@
+server:
+  port: 8090
+
+spring:
+  mvc:
+    static-path-pattern: /static/**
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/typing
+    username: root
+    password: 1q2w3e4r~
+
+
+mybatis:
+  mapper-locations:
+    - /mappers/*.xml
