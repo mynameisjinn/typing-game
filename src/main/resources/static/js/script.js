@@ -86,7 +86,7 @@ function displayCPM(cpm) {
 
 function displayResult(result) {
     // Create a new element to display the result
-    const resultElement = document.getElementById('cpmDisplay');
+    const resultElement = document.createElement('cpmDisplay');
     resultElement.textContent = result;
     document.body.appendChild(resultElement);
 }
