@@ -3,7 +3,7 @@ const quoteDisplayElement = document.getElementById('quoteDisplay');
 const quoteInputElement = document.getElementById('quoteInput');
 const timerElement = document.getElementById('timer');
 const startElement = document.getElementById('start');
-const pauseElement = document.getElementById('pause');
+const reloadElement= document.getElementById('reload');
 
 quoteInputElement.addEventListener('input', () => {
     const arrayQuote = quoteDisplayElement.querySelectorAll('span')
@@ -30,7 +30,7 @@ quoteInputElement.addEventListener('input', () => {
     })
 
     if (correct) {
-        const totalTimeTaken = getTimerTime();
+        const totalTimeTaken = timeInSeconds;
         const quoteText = quoteDisplayElement.innerText.trim();
         const totalCharacters = quoteText.length;
         const typingSpeed = calculateTypingSpeed(totalCharacters, totalTimeTaken);
@@ -38,35 +38,31 @@ quoteInputElement.addEventListener('input', () => {
         // Updated: Remove the input event listener to prevent further typing
         quoteInputElement.removeEventListener('input', handleInput);
 
-        // Updated: Stop the timer by clearing the interval
-        clearInterval(timerInterval);
-
         // Updated: Disable the input field to freeze the screen
         quoteInputElement.disabled = true;
 
-        // Updated: Display the typing speed and reload after a delay to give time to see the result
-        displayResult(`종료! 타자 속도: ${typingSpeed} CPM`);
-        setTimeout(() => {
-            window.location.reload();
-        }, 300000);
+        stopTimer();
 
-        clearInterval(getTimerTime);
+        Swal.fire({
+          title: '게임이 끝났습니다! 결과를 저장하시겠습니까?',
+          html: `타자 속도: ${typingSpeed} CPM \n`,
+          showDenyButton: true,
+          confirmButtonText: 'Save',
+          denyButtonText: `Don't save`,
+        }).then((result) => {
+          /* Read more about isConfirmed, isDenied below */
+          if (result.isConfirmed) {
+            Swal.fire('Saved!', '', 'success')
+          } else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
+          }
+        })
 
-        // alert(`종료! 타자 속도: ${typingSpeed} CPM`);
-        // window.location.reload();
     }
-    // else {
-    //     // Update charactersTyped and calculate real-time CPM
-    //     charactersTyped++;
-    //     const totalTimeTaken = getTimerTime();
-    //     const cpm = calculateTypingSpeed(charactersTyped, totalTimeTaken);
-    //     displayCPM(cpm);
-    // }
+
 });
 
 function handleInput() {
-    // ... (previous input event handling code)
-
     // Updated: Calculate real-time CPM
     charactersTyped++;
     const totalTimeTaken = getTimerTime();
@@ -77,18 +73,6 @@ function handleInput() {
 function calculateTypingSpeed(totalCharacters, timeTaken) {
     const charactersPerMinute  = (totalCharacters / timeTaken) * 60;
     return charactersPerMinute .toFixed(2);
-}
-
-function displayCPM(cpm) {
-    const cpmDisplayElement = document.getElementById('div');
-    cpmDisplayElement.innerText = cpm;
-}
-
-function displayResult(result) {
-    // Create a new element to display the result
-    const resultElement = document.createElement('cpmDisplay');
-    resultElement.textContent = result;
-    document.body.appendChild(resultElement);
 }
 
 function getRandomQuote() {
@@ -109,35 +93,78 @@ async function renderNewQuote() {
 }
 
 let startTime;
+let isTimerRunning = false;
 
 function startButton() {
+  if (!isTimerRunning) {
     getRandomQuote().then(() => {
-        renderNewQuote();
-        startTimer();
-        quoteInputElement.disabled = false;
-      });
+      renderNewQuote();
+      // startTimer();
+      quoteInputElement.disabled = false;
+    });
+  }
 }
 
-function pauseButton() {
+function reloadButton() {
+  // window.location.reload();
+  clearInterval(timerInterval);
+  getRandomQuote().then(() => {
+    renderNewQuote();
+    // startTimer();
+    quoteInputElement.disabled = false;
+  });
+}
 
+function quoteInputClick() {
+  startTimer();
 }
 
 
 function startTimer() {
   timerElement.innerText = 0;
   startTime = new Date();
-  setInterval(() => {
+  isTimerRunning = true; // Update the timer state to running
+  timerInterval = setInterval(() => {
     timerElement.innerText = getTimerTime();
   }, 1000);
+
+  // return timerInterval;
 }
 
-function getTimerTime() {
-  return Math.floor((new Date() - startTime) / 1000);
+function stopTimer() {
+  clearInterval(timerInterval); // Stop the timer by clearing the interval
+  isTimerRunning = false; // Update the timer state to paused
 }
+
+// function getTimerTime() {
+//   return Math.floor((new Date() - startTime) / 1000);
+// }
+let timeInSeconds = 0;
+
+function getTimerTime() {
+  timeInSeconds = Math.floor((new Date() - startTime) / 1000);
+
+  if (timeInSeconds < 60) {
+    // If less than 60 seconds, display only seconds
+    return timeInSeconds + ' 초';
+  } else {
+    // If 60 seconds or more, convert to minutes and seconds
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = timeInSeconds % 60;
+
+    if (seconds === 0) {
+      return minutes + ' 분';
+    } else {
+      return minutes + ' 분 ' + seconds + ' 초';
+    }
+  }
+}
+
 
 function init() {
   startElement.addEventListener('click', startButton); // Add event listener to the Start button
-  pauseElement.addEventListener('click', pauseButton);
+  reloadElement.addEventListener('click', reloadButton);
+  quoteInputElement.addEventListener('click', quoteInputClick);
   quoteInputElement.disabled = true;
 }
 

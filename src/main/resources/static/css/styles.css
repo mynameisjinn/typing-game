@@ -21,7 +21,6 @@
     border-radius: .5rem;
     width: 700px;
     max-width: 90%;
-    margin-top: 150px;
     position: relative;
   }
 
@@ -41,7 +40,7 @@
   }
 
   .start {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #F0DB4F;
     font-weight: bold;
     background-color: transparent;
@@ -51,9 +50,10 @@
     cursor: pointer;
   }
 
-  .pause {
-    font-size: 1rem;
+  .reload {
+    font-size: 0.8em;
     color: #F0DB4F;
+    font-weight: bold;
     background-color: transparent;
     border: 2px solid #F0DB4F;
     padding: 0.5rem 1rem;
