@@ -1,0 +1,49 @@
+body {
+    background-color: #1E0555;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-box {
+    background-color: #F0DB4F;
+    height: 130px;
+    width: 300px;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center;
+    align-items: center;
+}
+
+.login-info {
+    /* background-color: #E91E63; */
+    height: 150px; /* Adjust the height to center both .login-google and .login-naver */
+    width: 200px;
+    display: flex; /* Set as a flex container */
+    flex-direction: column; /* Stack children vertically */
+    justify-content: center;
+    align-items: center;
+}
+
+.login-google {
+    background-color: white;
+    display: flex; /* Set as a flex container */
+    justify-content: center; /* Horizontally center the text */
+    align-items: center; /* Vertically center the text */
+    border-radius: 5rem;
+    height: 50px;
+    width: 180px;
+    margin-bottom: 10px; /* Add some spacing between the elements */
+}
+
+.login-naver {
+    background-color: green;
+    display: flex; /* Set as a flex container */
+    justify-content: center; /* Horizontally center the text */
+    align-items: center; /* Vertically center the text */
+    border-radius: 5rem;
+    height: 50px;
+    width: 180px;
+}
