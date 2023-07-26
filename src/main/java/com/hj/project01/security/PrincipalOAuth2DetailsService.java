@@ -27,13 +27,25 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
 
         System.out.println("userRequest" + userRequest);
         System.out.println("ClientRegistration  >>> " + userRequest.getClientRegistration());
-        System.out.println("Attributes  >>> " + oAuth2User.getAttributes());
+        System.out.println("Attributes >>> " + oAuth2User.getAttributes());
+//        System.out.println("Attributes's email >>> " + oAuth2User.getAttributes().get("response"));
 
         Map<String, Object> attributes = oAuth2User.getAttributes();
+        Map<String, Object> responseMap = (Map<String, Object>) attributes.get("response");
+        String naverEmail = (String) responseMap.get("email");
+
+        System.out.println("NaverEmail >>> " + naverEmail);
+
         String email = (String) attributes.get("email");
-        String username = email.substring(0, email.indexOf("@"));
 
         String provider = userRequest.getClientRegistration().getClientName();
+
+        if(provider == "google"){
+            email = (String) attributes.get("email");
+        } else {
+            email =(String) responseMap.get("email");
+        }
+        String username = email.substring(0, email.indexOf("@"));
 
         UserMst userMst = accountRepository.findUserByUsername(username);
 
@@ -59,6 +71,8 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
         }
 
         principalDetails = new PrincipalDetails(userMst, attributes);
+
+
         return principalDetails;
     }
 }
