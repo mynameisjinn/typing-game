@@ -46,9 +46,9 @@
         um.create_date,
         um.update_date
         from
-        user_mst um
+        user um
         left outer join role_dtl rd on(rd.user_id = um.user_id)
-        left outer join role_mst rm on(rm.role_id = rd.role_id)
+        left outer join role rm on(rm.role_id = rd.role_id)
         where
         um.user_id = #{userId}
     </select>
@@ -68,9 +68,9 @@
         um.create_date,
         um.update_date
         from
-        user_mst um
+        user um
         left outer join role_dtl rd on(rd.user_id = um.user_id)
-        left outer join role_mst rm on(rm.role_id = rd.role_id)
+        left outer join role rm on(rm.role_id = rd.role_id)
         where
         um.username = #{username}
     </select>
@@ -79,7 +79,7 @@
             parameterType="com.hj.project01.entity.UserMst"
             useGeneratedKeys="true"
             keyProperty="userId">
-        insert into user_mst
+        insert into user
         values (0, #{username}, #{password}, #{name}, #{email}, #{provider}, now(), now())
     </insert>
 
@@ -90,7 +90,7 @@
 
     <update id="setUserProvider" parameterType="com.hj.project01.entity.UserMst">
         update
-        user_mst
+        user
         set
         provider = #{provider}
         where
