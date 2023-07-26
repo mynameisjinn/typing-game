@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hj.project01.repository.AccountRepository">
+    <resultMap id="userMst" type="com.hj.project01.entity.UserMst">
+        <result property="userId" column="user_id"></result>
+        <result property="username" column="username"></result>
+        <result property="password" column="password"></result>
+        <result property="name" column="name"></result>
+        <result property="email" column="email"></result>
+        <result property="provider" column="provider"></result>
+        <result property="createDate" column="create_date"></result>
+        <result property="updateDate" column="update_date"></result>
+        <collection property="roleDtl" javaType="list" resultMap="roleDtl"></collection>
+    </resultMap>
+
+    <resultMap id="roleMst" type="com.hj.project01.entity.RoleMst">
+        <result property="roleId" column="role_id"></result>
+        <result property="roleName" column="role_name"></result>
+        <result property="createDate" column="create_date"></result>
+        <result property="updateDate" column="update_date"></result>
+    </resultMap>
+
+    <resultMap id="roleDtl" type="com.hj.project01.entity.RoleDtl">
+        <result property="roleDtlId" column="role_dtl_id"></result>
+        <result property="userId" column="user_id"></result>
+        <result property="roleId" column="role_id"></result>
+        <result property="createDate" column="create_date"></result>
+        <result property="updateDate" column="update_date"></result>
+        <collection property="roleMst" resultMap="roleMst"></collection>
+    </resultMap>
+
+    <select id="findUserByUserId" parameterType="Integer" resultMap="userMst">
+        select
+        um.user_id,
+        um.username,
+        um.password,
+        um.name,
+        um.email,
+        um.provider,
+        rd.role_id,
+        rm.role_name,
+
+        um.create_date,
+        um.update_date
+        from
+        user um
+        left outer join role_dtl rd on(rd.user_id = um.user_id)
+        left outer join role rm on(rm.role_id = rd.role_id)
+        where
+        um.user_id = #{userId}
+    </select>
+
+    <select id="findUserByUsername" parameterType="String" resultMap="userMst">
+        select
+        um.user_id,
+        um.username,
+        um.password,
+        um.name,
+        um.email,
+        um.provider,
+
+        rd.role_id,
+        rm.role_name,
+
+        um.create_date,
+        um.update_date
+        from
+        user um
+        left outer join role_dtl rd on(rd.user_id = um.user_id)
+        left outer join role rm on(rm.role_id = rd.role_id)
+        where
+        um.username = #{username}
+    </select>
+
+    <insert id="saveUser"
+            parameterType="com.hj.project01.entity.UserMst"
+            useGeneratedKeys="true"
+            keyProperty="userId">
+        insert into user
+        values (0, #{username}, #{password}, #{name}, #{email}, #{provider}, now(), now())
+    </insert>
+
+    <insert id="saveRole" parameterType="com.hj.project01.entity.UserMst">
+        insert into role_dtl
+        values (0, #{userId}, 1, now(), now())
+    </insert>
+
+    <update id="setUserProvider" parameterType="com.hj.project01.entity.UserMst">
+        update
+        user
+        set
+        provider = #{provider}
+        where
+        user_id = #{userId}
+    </update>
+
+
+</mapper>
