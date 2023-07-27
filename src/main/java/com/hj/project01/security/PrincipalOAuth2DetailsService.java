@@ -27,25 +27,44 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
 
         System.out.println("userRequest" + userRequest);
         System.out.println("ClientRegistration  >>> " + userRequest.getClientRegistration());
-        System.out.println("Attributes  >>> " + oAuth2User.getAttributes());
+        System.out.println("Attributes >>> " + oAuth2User.getAttributes());
+//        System.out.println("Attributes's email >>> " + oAuth2User.getAttributes().get("response"));
 
         Map<String, Object> attributes = oAuth2User.getAttributes();
-        String email = (String) attributes.get("email");
-        String username = email.substring(0, email.indexOf("@"));
+        Map<String, Object> responseMap = (Map<String, Object>) attributes.get("response");
+//        String naverEmail = (String) responseMap.get("email");
+
+//        System.out.println("NaverEmail >>> " + naverEmail);
+
+        String username = "";
+        String name = "";
 
         String provider = userRequest.getClientRegistration().getClientName();
+
+        if(provider == "Google"){
+            username = (String) attributes.get("email");
+        } else {
+            username =(String) responseMap.get("email");
+        }
+
+        if(provider == "Google"){
+            name = (String) attributes.get("email");
+        } else {
+            name =(String) responseMap.get("email");
+        }
+
+//        String username = email.substring(0, email.indexOf("@"));
 
         UserMst userMst = accountRepository.findUserByUsername(username);
 
         if (userMst == null) {
-            String name = (String) attributes.get("name");
+//            String name = (String) attributes.get("name");
             String password = new BCryptPasswordEncoder().encode(UUID.randomUUID().toString());
 
             userMst = UserMst.builder()
                     .username(username)
                     .password(password)
                     .name(name)
-                    .email(email)
                     .provider(provider)
                     .build();
 
@@ -59,6 +78,8 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
         }
 
         principalDetails = new PrincipalDetails(userMst, attributes);
+
+
         return principalDetails;
     }
 }
