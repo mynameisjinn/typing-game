@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoginError</title>
+    <link rel="stylesheet" href="/static/css/account/login_error.css">
+</head>
+<body>
+<header>
+
+</header>
+<div class="login-box">
+    <form action="/account/login" method="post">
+        <div class="login-info">
+
+            <p class="error-title">Login Error</p>
+
+            <span class="error-message">아이디 또는 패스워드를 확인해 주세요</span>
+            <span class="error-message">ID 는 이메일 형식이어야 합니다</span>
+
+        </div>
+        <div class="oauth2-box">
+            <button type="button" class="back-button" onclick="location.href ='/account/login'">뒤로 돌아가기</button>
+        </div>
+    </form>
+</div>
+<footer>
+
+</footer>
+</body>
+</html>
