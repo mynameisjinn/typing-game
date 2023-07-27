@@ -85,14 +85,5 @@
         values (0, 1, #{userId}, now(), now())
     </insert>
 
-    <update id="setUserProvider" parameterType="com.hj.project01.entity.UserMst">
-        update
-        user
-        set
-        provider = #{provider}
-        where
-        user_id = #{userId}
-    </update>
-
 
 </mapper>

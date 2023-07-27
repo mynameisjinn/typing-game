@@ -53,12 +53,9 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
             name =(String) responseMap.get("email");
         }
 
-//        String username = email.substring(0, email.indexOf("@"));
-
         UserMst userMst = accountRepository.findUserByUsername(username);
 
         if (userMst == null) {
-//            String name = (String) attributes.get("name");
             String password = new BCryptPasswordEncoder().encode(UUID.randomUUID().toString());
 
             userMst = UserMst.builder()
@@ -72,9 +69,6 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
             accountRepository.saveRole(userMst);
             userMst = accountRepository.findUserByUsername(username);
 
-        } else if (userMst.getProvider() == null) {
-            userMst.setProvider(provider);
-            accountRepository.setUserProvider(userMst);
         }
 
         principalDetails = new PrincipalDetails(userMst, attributes);

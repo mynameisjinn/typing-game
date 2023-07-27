@@ -9,4 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AccountController {
     @GetMapping("/login")
     public String login() {return "account/login";}
+    @GetMapping("/login/error")
+    public String loginError() {return "account/login_error";}
 }
