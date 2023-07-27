@@ -85,7 +85,7 @@
 
     <insert id="saveRole" parameterType="com.hj.project01.entity.UserMst">
         insert into role_dtl
-        values (0, #{userId}, 1, now(), now())
+        values (0, 1, #{userId}, now(), now())
     </insert>
 
     <update id="setUserProvider" parameterType="com.hj.project01.entity.UserMst">

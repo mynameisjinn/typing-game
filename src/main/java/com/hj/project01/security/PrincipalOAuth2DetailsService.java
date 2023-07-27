@@ -32,15 +32,15 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
 
         Map<String, Object> attributes = oAuth2User.getAttributes();
         Map<String, Object> responseMap = (Map<String, Object>) attributes.get("response");
-        String naverEmail = (String) responseMap.get("email");
+//        String naverEmail = (String) responseMap.get("email");
 
-        System.out.println("NaverEmail >>> " + naverEmail);
+//        System.out.println("NaverEmail >>> " + naverEmail);
 
         String email = (String) attributes.get("email");
 
         String provider = userRequest.getClientRegistration().getClientName();
 
-        if(provider == "google"){
+        if(provider == "Google"){
             email = (String) attributes.get("email");
         } else {
             email =(String) responseMap.get("email");
