@@ -48,9 +48,9 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
         }
 
         if(provider == "Google"){
-            name = (String) attributes.get("email");
+            name = (String) attributes.get("name");
         } else {
-            name =(String) responseMap.get("email");
+            name =(String) responseMap.get("name");
         }
 
         UserMst userMst = accountRepository.findUserByUsername(username);
