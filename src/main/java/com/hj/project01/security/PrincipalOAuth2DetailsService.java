@@ -36,28 +36,35 @@ public class PrincipalOAuth2DetailsService extends DefaultOAuth2UserService {
 
 //        System.out.println("NaverEmail >>> " + naverEmail);
 
-        String email = (String) attributes.get("email");
+        String username = "";
+        String name = "";
 
         String provider = userRequest.getClientRegistration().getClientName();
 
         if(provider == "Google"){
-            email = (String) attributes.get("email");
+            username = (String) attributes.get("email");
         } else {
-            email =(String) responseMap.get("email");
+            username =(String) responseMap.get("email");
         }
-        String username = email.substring(0, email.indexOf("@"));
+
+        if(provider == "Google"){
+            name = (String) attributes.get("email");
+        } else {
+            name =(String) responseMap.get("email");
+        }
+
+//        String username = email.substring(0, email.indexOf("@"));
 
         UserMst userMst = accountRepository.findUserByUsername(username);
 
         if (userMst == null) {
-            String name = (String) attributes.get("name");
+//            String name = (String) attributes.get("name");
             String password = new BCryptPasswordEncoder().encode(UUID.randomUUID().toString());
 
             userMst = UserMst.builder()
                     .username(username)
                     .password(password)
                     .name(name)
-                    .email(email)
                     .provider(provider)
                     .build();
 

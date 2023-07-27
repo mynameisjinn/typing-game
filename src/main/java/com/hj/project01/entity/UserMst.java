@@ -22,7 +22,7 @@ public class UserMst {
     @ApiModelProperty(hidden = true)
     private int userId;
 
-    @ApiModelProperty(name = "username", value = "사용자이름", example = "abc", required = true)
+    @ApiModelProperty(name = "username", value = "이메일", example = "abc@gmail.com", required = true)
     private String username;
 
     @ApiModelProperty(name = "password", value = "비밀번호", example = "hikakao@1", required = true)
@@ -31,8 +31,6 @@ public class UserMst {
     @ApiModelProperty(name = "name", value = "성명", example = "김카카오", required = true)
     private String name;
 
-    @ApiModelProperty(name = "email", value = "이메일", example = "abc@gmail.com", required = true)
-    private String email;
 
     @ApiModelProperty(name = "provider", value = "OAuth데이터출처", example = "Kakao", required = false)
     private String provider;

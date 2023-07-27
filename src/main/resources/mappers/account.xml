@@ -9,7 +9,6 @@
         <result property="username" column="username"></result>
         <result property="password" column="password"></result>
         <result property="name" column="name"></result>
-        <result property="email" column="email"></result>
         <result property="provider" column="provider"></result>
         <result property="createDate" column="create_date"></result>
         <result property="updateDate" column="update_date"></result>
@@ -59,9 +58,7 @@
         um.username,
         um.password,
         um.name,
-        um.email,
         um.provider,
-
         rd.role_id,
         rm.role_name,
 
@@ -80,7 +77,7 @@
             useGeneratedKeys="true"
             keyProperty="userId">
         insert into user
-        values (0, #{username}, #{password}, #{name}, #{email}, #{provider}, now(), now())
+        values (0, #{username}, #{password}, #{name}, #{provider}, now(), now())
     </insert>
 
     <insert id="saveRole" parameterType="com.hj.project01.entity.UserMst">
