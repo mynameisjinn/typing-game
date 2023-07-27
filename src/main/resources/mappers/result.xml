@@ -6,7 +6,7 @@
 <mapper namespace="com.hj.project01.repository.ResultRepository">
     <insert id="saveResult" parameterType="com.hj.project01.web.dto.ResultDto">
         insert into result
-        values (0, #{speed})
+        values (0, #{speed},#{user_id},#{quotes_id})
     </insert>
 
 
