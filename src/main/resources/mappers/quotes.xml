@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hj.project01.repository.QuotesRepository">
+
+    <insert id="saveQuotes" parameterType="com.hj.project01.web.dto.QuotesReqDto">
+        insert into quotes
+        values (0, #{category},#{author},#{contentKo},#{contentEn},#{lengthKo},#{lengthEn})
+    </insert>
+
+    <select id="findQuotesById" resultType="com.hj.project01.entity.QuotesMst">
+        select category
+            , author
+            , content_ko as contentKo
+            , length_ko as lengthKo
+            , content_en as contentEn
+            , length_en as lengthEn
+         from quotes
+        where quotes_id = #{quotesId};
+    </select>
+
+    <update id="updateQuotesById" parameterType="com.hj.project01.web.dto.QuotesReqDto">
+        update quotes
+           set author = #{author}
+             , content_ko = #{contentKo}
+             , length_ko = #{lengthKo}
+             , content_en = #{contentEn}
+             , length_en = #{lengthEn}
+         where quotes_id = #{quotesId};
+    </update>
+
+    <delete id="deleteQuotes">
+        delete
+        from
+            quotes
+        where
+            quotes_id = #{quotesId};
+    </delete>
+
+</mapper>
