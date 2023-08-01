@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hj.project01.repository.QuotesRepository">
+
+    <insert id="saveQuotes" parameterType="com.hj.project01.web.dto.QuotesReqDto">
+        insert into quotes
+        values (0, #{category},#{author},#{contentKo},#{contentEn},#{lengthKo},#{lengthEn})
+    </insert>
+
+    <select id="findQuotesById" resultType="com.hj.project01.entity.QuotesMst">
+        select quotes_id as quotesId
+             , category
+             , author
+             , content_ko as contentKo
+             , length_ko as lengthKo
+             , content_en as contentEn
+             , length_en as lengthEn
+          from quotes
+         where quotes_id = #{quotesId};
+    </select>
+
+    <select id="searchQuotes"
+            parameterType="com.hj.project01.web.dto.QuotesReqDto"
+            resultType="com.hj.project01.entity.QuotesMst">
+        select quotes_id as quotesId
+             , category
+             , author
+             , content_ko as contentKo
+             , content_en as contentEn
+             , length_ko as lengthKo
+             , length_en as lengthEn
+          from quotes
+         where 1 = 1;
+    </select>
+
+    <update id="updateQuotesById" parameterType="com.hj.project01.entity.QuotesMst">
+        update quotes
+
+
+        <trim prefix="set" suffixOverrides=",">
+            <if test="author != null">
+                author = #{author},
+            </if>
+            <if test="category != null">
+                category = #{category},
+            </if>
+            <if test="contentKo != null">
+                content_ko = #{contentKo},
+            </if>
+            <if test="contentEn != null">
+                content_en = #{contentEn},
+            </if>
+            <if test="lengthKo != null">
+                length_ko = #{lengthKo},
+            </if>
+            <if test="lengthEn != null">
+                length_en = #{lengthEn},
+            </if>
+        </trim>
+         where quotes_id = #{quotesId};
+    </update>
+
+    <delete id="deleteQuotes">
+        delete
+        from
+            quotes
+        where
+            quotes_id = #{quotesId};
+    </delete>
+
+</mapper>

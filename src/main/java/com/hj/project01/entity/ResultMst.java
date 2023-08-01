@@ -1,4 +1,4 @@
-package com.hj.project01.web.dto;
+package com.hj.project01.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResultDto {
+public class ResultMst {
     private int resultId;
     private int speed;
+    private int userId;
+    private int quotesId;
 }
