@@ -2,6 +2,7 @@ package com.hj.project01.web.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 @Data
@@ -15,8 +16,9 @@ public class QuotesReqDto {
     private String contentKo;
     @NotBlank
     private String contentEn;
-    @NotBlank
+
+    @Min(1)
     private int lengthKo;
-    @NotBlank
+    @Min(1)
     private int lengthEn;
 }
