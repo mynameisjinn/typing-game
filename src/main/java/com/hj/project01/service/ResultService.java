@@ -12,4 +12,6 @@ public class ResultService {
     public int addResult(ResultMst resultMst) {
         return resultRepository.saveResult(resultMst) > 0 ? resultMst.getResultId(): 0;
     }
+
+//    public
 }
