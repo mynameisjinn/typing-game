@@ -199,4 +199,3 @@ class MainPageService {
         this.startTimer();
     }
 
-}
