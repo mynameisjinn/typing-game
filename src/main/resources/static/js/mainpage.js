@@ -2,6 +2,7 @@ window.onload = () => {
 
     MainPageService.getInstance().getRandomQuote();
     MainPageService.getInstance().addEventInput();
+    MainPageService.getInstance().quoteInputClick();
     MainPageService.getInstance().addStartButton();
 
 }
@@ -149,11 +150,17 @@ class MainPageService {
         // displayCPM(cpm)
     }
 
+    constructor() {
+        this.startTime = null;
+        this.isTimerRunning = false;
+    }
+
     getTimerTime() {
         let timeInSeconds = 0;
-
+        // let startTime = new Date();
         timeInSeconds = Math.floor((new Date() - this.startTime) / 1000);
-
+        console.log(new Date() - this.startTime)
+        console.log(this.startTime)
         if (timeInSeconds < 60) {
             // If less than 60 seconds, display only seconds
             return timeInSeconds + ' 초';
@@ -171,10 +178,11 @@ class MainPageService {
     }
 
     startTimer() {
+        // const startTime = new Date();
         timerElement.innerText = 0;
-        startTime = new Date();
-        isTimerRunning = true;
-        timerInterval = setInterval(() => {
+        this.startTime = new Date();
+        this.isTimerRunning = true;
+        const timerInterval = setInterval(() => {
             timerElement.innerText = this.getTimerTime();
         }, 1000);
     }
@@ -185,6 +193,10 @@ class MainPageService {
         startElement.onclick = () => {
             quoteInputElement.disabled = false;
         }
+    }
+
+    quoteInputClick() {
+        this.startTimer();
     }
 
 }
