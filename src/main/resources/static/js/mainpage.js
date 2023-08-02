@@ -1,9 +1,11 @@
 window.onload = () => {
-
+    // quoteInputElement.disabled = true;
     MainPageService.getInstance().getRandomQuote();
     MainPageService.getInstance().addEventInput();
     MainPageService.getInstance().quoteInputClick();
-    MainPageService.getInstance().addStartButton();
+    // MainPageService.getInstance().addStartButton();
+    MainPageService.getInstance().addReloadButton();
+
 
 }
 
@@ -13,7 +15,7 @@ const timerElement = document.getElementById('timer');
 const startElement = document.getElementById('start');
 const reloadElement= document.getElementById('reload');
 
-const isTimerRunning = false;
+// const isTimerRunning = false;
 
 class MainPageApi {
     static #instance = null;
@@ -55,6 +57,8 @@ class MainPageService {
     }
 
     getRandomQuote() {
+        quoteDisplayElement.innerHTML = '';
+
         const responseData = MainPageApi.getInstance().searchQuotes();
         const randomIndex = Math.floor(Math.random() * responseData.length);
         const randomQuote = responseData[randomIndex];
@@ -105,8 +109,8 @@ class MainPageService {
             })
 
             if(correct) {
-                const timeInSeconds = 0;
-                const totalTimeTaken = timeInSeconds;
+                // const timeInSeconds = 0;
+                const totalTimeTaken = this.timeInSeconds;
                 const quoteText = quoteDisplayElement.innerText.trim();
                 const totalCharacters = quoteText.length;
                 const typingSpeed =  this.calculateTypingSpeed(totalCharacters, totalTimeTaken);
@@ -114,10 +118,9 @@ class MainPageService {
                 const handleInput = this.handleInput();
                 quoteInputElement.removeEventListener('input', handleInput);
 
-                // Updated: Disable the input field to freeze the screen
-                quoteInputElement.disabled = true;
+                // quoteInputElement.disabled = true;
 
-                // stopTimer();
+                this.stopTimer();
 
                 Swal.fire({
                     title: '게임이 끝났습니다! 결과를 저장하시겠습니까?',
@@ -153,21 +156,23 @@ class MainPageService {
     constructor() {
         this.startTime = null;
         this.isTimerRunning = false;
+        this.timeInSeconds = 0;
+        this.timerInterval = false;
     }
 
     getTimerTime() {
-        let timeInSeconds = 0;
+        // let timeInSeconds = 0;
         // let startTime = new Date();
-        timeInSeconds = Math.floor((new Date() - this.startTime) / 1000);
-        console.log(new Date() - this.startTime)
-        console.log(this.startTime)
-        if (timeInSeconds < 60) {
+        this.timeInSeconds = Math.floor((new Date() - this.startTime) / 1000);
+        // console.log(new Date() - this.startTime)
+        // console.log(this.startTime)
+        if (this.timeInSeconds < 60) {
             // If less than 60 seconds, display only seconds
-            return timeInSeconds + ' 초';
+            return this.timeInSeconds + ' 초';
         } else {
             // If 60 seconds or more, convert to minutes and seconds
-            const minutes = Math.floor(timeInSeconds / 60);
-            const seconds = timeInSeconds % 60;
+            const minutes = Math.floor(this.timeInSeconds / 60);
+            const seconds = this.timeInSeconds % 60;
 
             if (seconds === 0) {
             return minutes + ' 분';
@@ -182,20 +187,48 @@ class MainPageService {
         timerElement.innerText = 0;
         this.startTime = new Date();
         this.isTimerRunning = true;
-        const timerInterval = setInterval(() => {
+        this.timerInterval = setInterval(() => {
             timerElement.innerText = this.getTimerTime();
         }, 1000);
     }
 
+    stopTimer() {
+        clearInterval(this.timerInterval);
+        this.isTimerRunning = false;
+        console.log("stopTimer 작동")
+    }
+
     // isTimerRunning = false;
     addStartButton() {
+        // if(!this.isTimerRunning){
+        //     this.getRandomQuote()
+        // }
+        // startElement.onclick() = () => {
+            // }
 
-        startElement.onclick = () => {
-            quoteInputElement.disabled = false;
+            startElement.onclick = () => {
+                this.getRandomQuote()
+                // this.isTimerRunning = true
+            }
         }
+
+        addReloadButton() {
+            reloadElement.onclick = () => {
+                clearInterval(this.timerInterval);
+                this.getRandomQuote();
+                this.isTimerRunning = true
+                // quoteInputElement.disabled = false
+
+        }
+
+
     }
 
     quoteInputClick() {
-        this.startTimer();
+
+        quoteInputElement.onclick = () => {
+            this.startTimer();
+        }
     }
 
+}
