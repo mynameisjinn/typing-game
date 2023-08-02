@@ -1,26 +1,21 @@
 window.onload = () => {
-    // quoteInputElement.disabled = true;
+    quoteInputElement.disabled = true;
     MainPageService.getInstance().getRandomQuote();
     MainPageService.getInstance().addEventInput();
     MainPageService.getInstance().quoteInputClick();
-    // MainPageService.getInstance().addStartButton();
     MainPageService.getInstance().addReloadButton();
-
-
 }
 
 const quoteDisplayElement = document.getElementById('quoteDisplay');
 const quoteInputElement = document.getElementById('quoteInput');
 const timerElement = document.getElementById('timer');
-const startElement = document.getElementById('start');
-const reloadElement= document.getElementById('reload');
+const reloadElement = document.getElementById('reload');
 
-// const isTimerRunning = false;
 
 class MainPageApi {
     static #instance = null;
     static getInstance() {
-        if(this.#instance == null) {
+        if (this.#instance == null) {
             this.#instance = new MainPageApi();
         }
         return this.#instance;
@@ -36,7 +31,6 @@ class MainPageApi {
             dataType: "json",
             success: response => {
                 responseData = response;
-                // console.log(response);
             },
             error: error => {
                 console.log(error);
@@ -50,7 +44,7 @@ class MainPageApi {
 class MainPageService {
     static #instance = null;
     static getInstance() {
-        if(this.#instance == null) {
+        if (this.#instance == null) {
             this.#instance = new MainPageService();
         }
         return this.#instance;
@@ -64,23 +58,13 @@ class MainPageService {
         const randomQuote = responseData[randomIndex];
         const randomQuoteContentKo = randomQuote.contentKo;
 
-        // console.log(randomQuoteContentKo);
-
         // 랜덤 인용구를 <span> 태그로 나눈다
         randomQuoteContentKo.split('').forEach(character => {
             const characterSpan = document.createElement('span')
             characterSpan.innerText = character
             quoteDisplayElement.appendChild(characterSpan)
-            // console.log(characterSpan);
         })
         quoteInputElement.value = null;
-
-
-        // console.log(responseData);
-
-        // quoteDisplayElement.innerHTML = `
-        //     <div>${randomQuote.contentKo}<div>
-        // `
     }
 
     addEventInput() {
@@ -98,27 +82,26 @@ class MainPageService {
                     characterSpan.classList.remove('correct')
                     characterSpan.classList.remove('incorrect')
                     correct = false
-                  } else if (character === characterSpan.innerText) {
+                } else if (character === characterSpan.innerText) {
                     characterSpan.classList.add('correct')
                     characterSpan.classList.remove('incorrect')
-                  } else {
+                } else {
                     characterSpan.classList.remove('correct')
                     characterSpan.classList.add('incorrect')
                     correct = false
-                  }
+                }
             })
 
-            if(correct) {
-                // const timeInSeconds = 0;
+            if (correct) {
                 const totalTimeTaken = this.timeInSeconds;
                 const quoteText = quoteDisplayElement.innerText.trim();
                 const totalCharacters = quoteText.length;
-                const typingSpeed =  this.calculateTypingSpeed(totalCharacters, totalTimeTaken);
+                const typingSpeed = this.calculateTypingSpeed(totalCharacters, totalTimeTaken);
 
                 const handleInput = this.handleInput();
                 quoteInputElement.removeEventListener('input', handleInput);
 
-                // quoteInputElement.disabled = true;
+                quoteInputElement.disabled = true;
 
                 this.stopTimer();
 
@@ -128,14 +111,13 @@ class MainPageService {
                     showDenyButton: true,
                     confirmButtonText: 'Save',
                     denyButtonText: `Don't save`,
-                  }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
+                }).then((result) => {
                     if (result.isConfirmed) {
-                      Swal.fire('Saved!', '', 'success')
+                        Swal.fire('Saved!', '', 'success')
                     } else if (result.isDenied) {
-                      Swal.fire('Changes are not saved', '', 'info')
+                        Swal.fire('Changes are not saved', '', 'info')
                     }
-                  })
+                })
             }
 
         })
@@ -143,14 +125,13 @@ class MainPageService {
 
     calculateTypingSpeed(totalCharacters, timeTaken) {
         const charactersPerMinute = (totalCharacters / timeTaken) * 60;
-        return charactersPerMinute .toFixed(2);
+        return charactersPerMinute.toFixed(2);
     }
 
     handleInput() {
         this.charactersTyped++;
         const totalTimeTaken = this.getTimerTime();
         const cpm = this.calculateTypingSpeed(this.charactersTyped, totalTimeTaken);
-        // displayCPM(cpm)
     }
 
     constructor() {
@@ -161,29 +142,23 @@ class MainPageService {
     }
 
     getTimerTime() {
-        // let timeInSeconds = 0;
-        // let startTime = new Date();
         this.timeInSeconds = Math.floor((new Date() - this.startTime) / 1000);
-        // console.log(new Date() - this.startTime)
-        // console.log(this.startTime)
+
         if (this.timeInSeconds < 60) {
-            // If less than 60 seconds, display only seconds
             return this.timeInSeconds + ' 초';
         } else {
-            // If 60 seconds or more, convert to minutes and seconds
             const minutes = Math.floor(this.timeInSeconds / 60);
             const seconds = this.timeInSeconds % 60;
 
             if (seconds === 0) {
-            return minutes + ' 분';
+                return minutes + ' 분';
             } else {
-            return minutes + ' 분 ' + seconds + ' 초';
+                return minutes + ' 분 ' + seconds + ' 초';
             }
         }
     }
 
     startTimer() {
-        // const startTime = new Date();
         timerElement.innerText = 0;
         this.startTime = new Date();
         this.isTimerRunning = true;
@@ -198,37 +173,28 @@ class MainPageService {
         console.log("stopTimer 작동")
     }
 
-    // isTimerRunning = false;
+
     addStartButton() {
-        // if(!this.isTimerRunning){
-        //     this.getRandomQuote()
-        // }
-        // startElement.onclick() = () => {
-            // }
-
-            startElement.onclick = () => {
-                this.getRandomQuote()
-                // this.isTimerRunning = true
-            }
+        startElement.onclick = () => {
+            this.getRandomQuote()
         }
-
-        addReloadButton() {
-            reloadElement.onclick = () => {
-                clearInterval(this.timerInterval);
-                this.getRandomQuote();
-                this.isTimerRunning = true
-                // quoteInputElement.disabled = false
-
-        }
-
-
     }
+
+    addReloadButton() {
+        reloadElement.onclick = () => {
+            clearInterval(this.timerInterval);
+            this.getRandomQuote();
+            this.isTimerRunning = true
+        }
+    }
+
 
     quoteInputClick() {
-
-        quoteInputElement.onclick = () => {
-            this.startTimer();
+        if (quoteInputElement.disabled == true) {
+            quoteInputElement.onclick = () => {
+                this.startTimer();
+            }
+            quoteInputElement.disabled = false;
         }
     }
-
 }
