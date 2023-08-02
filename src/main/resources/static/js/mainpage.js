@@ -173,28 +173,26 @@ class MainPageService {
         console.log("stopTimer 작동")
     }
 
-
-    addStartButton() {
-        startElement.onclick = () => {
-            this.getRandomQuote()
-        }
-    }
-
     addReloadButton() {
         reloadElement.onclick = () => {
-            clearInterval(this.timerInterval);
-            this.getRandomQuote();
-            this.isTimerRunning = true
+//            clearInterval(this.timerInterval);
+//            this.getRandomQuote();
+//            this.isTimerRunning = true
+            location.reload();
         }
     }
 
 
     quoteInputClick() {
         if (quoteInputElement.disabled == true) {
-            quoteInputElement.onclick = () => {
+            const handleKeyDown = () => {
                 this.startTimer();
-            }
+                quoteInputElement.removeEventListener('keydown',handleKeyDown);
+            };
+            quoteInputElement.addEventListener('keydown',handleKeyDown);
             quoteInputElement.disabled = false;
         }
+
+
     }
 }
