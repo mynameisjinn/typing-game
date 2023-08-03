@@ -27,6 +27,6 @@ public class AccountApi {
 
         return ResponseEntity
                 .ok()
-                .body(HttpStatus.OK.value());
+                .body(principalDetails);
     }
 }
