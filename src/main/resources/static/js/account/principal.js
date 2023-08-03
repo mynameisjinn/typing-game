@@ -1,6 +1,6 @@
-window.onload = () => {
-    PrincipalService.getInstance().loadLogin();
-}
+//window.onload = () => {
+//    PrincipalService.getInstance().loadLogin();
+//}
 
 class PrincipalApi {
     static #instance = null;
@@ -21,7 +21,7 @@ class PrincipalApi {
             dataType: "json",
             success: response => {
                 responseData = response;
-                console.log(responseData);
+//                console.log(responseData);
             },
             error: error => {
                 console.log(error);

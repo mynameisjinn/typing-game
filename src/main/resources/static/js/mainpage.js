@@ -1,4 +1,6 @@
 window.onload = () => {
+    PrincipalService.getInstance().loadLogin();
+
     quoteInputElement.disabled = true;
     MainPageService.getInstance().getRandomQuote();
     MainPageService.getInstance().addEventInput();
@@ -39,6 +41,26 @@ class MainPageApi {
 
         return responseData;
     }
+
+    addResult(speed, quotesId) {
+
+        let responseData = null;
+
+        $.ajax({
+            async: false,
+            type: "post",
+            url: "http://localhost:8090/api/typing/result/{quotesId}",
+            dataType: "json",
+            success: response => {
+                responseData = response;
+            },
+            error: error => {
+                console.log(error);
+            }
+        })
+
+        return responseData;
+    }
 }
 
 class MainPageService {
@@ -58,6 +80,15 @@ class MainPageService {
         const randomQuote = responseData[randomIndex];
         const randomQuoteContentKo = randomQuote.contentKo;
 
+        // 값 받기 test
+        const principal =  PrincipalApi.getInstance().getPrincipal();
+
+        console.log(randomQuote.quotesId);
+        console.log(principal.user.userId);
+
+//        const resultData = MainPageApi.getInstance().addResult();
+//        console.log(resultData);
+
         // 랜덤 인용구를 <span> 태그로 나눈다
         randomQuoteContentKo.split('').forEach(character => {
             const characterSpan = document.createElement('span')
@@ -71,6 +102,9 @@ class MainPageService {
         quoteInputElement.addEventListener('input', () => {
             const arrayQoute = quoteDisplayElement.querySelectorAll('span')
             const arrayValue = quoteInputElement.value.split('')
+
+            const addResult =  MainPageApi.getInstance().addResult()
+//            const quotesId = this.randomQuote.quotesId;
 
             let correct = true
             let charactersTyped = 0
@@ -113,6 +147,7 @@ class MainPageService {
                     denyButtonText: `Don't save`,
                 }).then((result) => {
                     if (result.isConfirmed) {
+                         addResult(`${typingSpeed}`, quotesId);
                         Swal.fire('Saved!', '', 'success')
                     } else if (result.isDenied) {
                         Swal.fire('Changes are not saved', '', 'info')
@@ -170,7 +205,6 @@ class MainPageService {
     stopTimer() {
         clearInterval(this.timerInterval);
         this.isTimerRunning = false;
-        console.log("stopTimer 작동")
     }
 
     addReloadButton() {

@@ -9,7 +9,17 @@ public class ResultService {
     @Autowired
     private ResultRepository resultRepository;
 
-    public int addResult(ResultMst resultMst) {
-        return resultRepository.saveResult(resultMst) > 0 ? resultMst.getResultId(): 0;
+//    public int addResult(ResultMst resultMst) {
+//        return resultRepository.saveResult(resultMst) > 0 ? resultMst.getResultId(): 0;
+//    }
+
+    public void addResult(int speed, int userId, int quotesId) {
+        ResultMst resultMst = ResultMst.builder()
+                .speed(speed)
+                .userId(userId)
+                .resultId(quotesId)
+                .build();
+
+        resultRepository.saveResult(resultMst);
     }
 }
