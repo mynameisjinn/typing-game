@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 
 @Api(tags = {"Typing Result API Controller"})
 @RequestMapping("/api/typing")
@@ -24,13 +26,23 @@ public class ResultApi {
 //        return ResponseEntity.created(null)
 //                .body(resultService.addResult(resultMst));
 //    }
+
     @PostMapping("/result/{quotesId}")
     public ResponseEntity<?> saveResult(@PathVariable int quotesId,
-                                        Integer speed,
+                                        @Valid int speed,
                                         @AuthenticationPrincipal PrincipalDetails principalDetails){
         resultService.addResult(speed, quotesId, principalDetails.getUser().getUserId());
         return ResponseEntity
                 .ok()
                 .body(true);
     }
+
+//    @PostMapping("/result/{quotesId}")
+//    public ResponseEntity<?> saveResult(@PathVariable int quotesId,
+//                                        @AuthenticationPrincipal PrincipalDetails principalDetails){
+//        resultService.addResult(quotesId,principalDetails.getUser().getUserId());
+//        return ResponseEntity
+//                .ok()
+//                .body(true);
+//    }
 }

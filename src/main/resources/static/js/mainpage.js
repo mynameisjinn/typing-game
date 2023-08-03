@@ -43,13 +43,12 @@ class MainPageApi {
     }
 
     addResult(speed, quotesId) {
-
         let responseData = null;
 
         $.ajax({
             async: false,
             type: "post",
-            url: "http://localhost:8090/api/typing/result/{quotesId}",
+            url: `http://localhost:8090/api/typing/result/${quotesId}?speed=${speed}`,
             dataType: "json",
             success: response => {
                 responseData = response;
@@ -80,14 +79,9 @@ class MainPageService {
         const randomQuote = responseData[randomIndex];
         const randomQuoteContentKo = randomQuote.contentKo;
 
+        this.randomQuoteId = randomQuote.quotesId;
+
         // 값 받기 test
-        const principal =  PrincipalApi.getInstance().getPrincipal();
-
-        console.log(randomQuote.quotesId);
-        console.log(principal.user.userId);
-
-//        const resultData = MainPageApi.getInstance().addResult();
-//        console.log(resultData);
 
         // 랜덤 인용구를 <span> 태그로 나눈다
         randomQuoteContentKo.split('').forEach(character => {
@@ -103,7 +97,7 @@ class MainPageService {
             const arrayQoute = quoteDisplayElement.querySelectorAll('span')
             const arrayValue = quoteInputElement.value.split('')
 
-            const addResult =  MainPageApi.getInstance().addResult()
+//            const addResult =  MainPageApi.getInstance().addResult()
 //            const quotesId = this.randomQuote.quotesId;
 
             let correct = true
@@ -147,7 +141,11 @@ class MainPageService {
                     denyButtonText: `Don't save`,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                         addResult(`${typingSpeed}`, quotesId);
+//                        const addResult =  MainPageApi.getInstance().addResult(`${typingSpeed}`,this.randomQuoteId);
+//                        addResult(`${typingSpeed}`, this.randomQuoteId);
+const resultData = MainPageApi.getInstance().addResult(`${typingSpeed}`, this.randomQuoteId);
+
+                        console.log(resultData);
                         Swal.fire('Saved!', '', 'success')
                     } else if (result.isDenied) {
                         Swal.fire('Changes are not saved', '', 'info')
@@ -174,6 +172,7 @@ class MainPageService {
         this.isTimerRunning = false;
         this.timeInSeconds = 0;
         this.timerInterval = false;
+        this.randomQuoteId = null;
     }
 
     getTimerTime() {

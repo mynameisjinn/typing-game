@@ -6,16 +6,24 @@
 <mapper namespace="com.hj.project01.repository.ResultRepository">
     <resultMap id="ResultMst" type="com.hj.project01.entity.ResultMst">
         <result property="resultId" column="result_id"></result>
-        <result property="speed" column="speed"></result>
         <result property="userId" column="user_id"></result>
         <result property="quotesId" column="quotes_id"></result>
+        <result property="speed" column="speed"></result>
     </resultMap>
     <insert id="saveResult"
             parameterType="com.hj.project01.entity.ResultMst"
             useGeneratedKeys="true"
             keyProperty="resultId">
         insert into result
-        values (0, #{speed},#{userId},#{quotesId})
+        values (0,#{userId},#{quotesId},#{speed})
     </insert>
+
+<!--    <insert id="saveResult"-->
+<!--            parameterType="com.hj.project01.entity.ResultMst"-->
+<!--            useGeneratedKeys="true"-->
+<!--            keyProperty="resultId">-->
+<!--        insert into result-->
+<!--        values (0, 1,#{userId},#{quotesId})-->
+<!--    </insert>-->
 
 </mapper>

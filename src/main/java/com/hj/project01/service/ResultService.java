@@ -17,9 +17,18 @@ public class ResultService {
         ResultMst resultMst = ResultMst.builder()
                 .speed(speed)
                 .userId(userId)
-                .resultId(quotesId)
+                .quotesId(quotesId)
                 .build();
 
         resultRepository.saveResult(resultMst);
     }
+
+//    public void addResult(int userId, int quotesId) {
+//        ResultMst resultMst = ResultMst.builder()
+//                .userId(userId)
+//                .quotesId(quotesId)
+//                .build();
+//
+//        resultRepository.saveResult(resultMst);
+//    }
 }
