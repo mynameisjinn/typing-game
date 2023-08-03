@@ -88,4 +88,22 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public boolean isEnabled() {
         return true;
     }
+
+//    private String provider; // 인증 제공자 정보를 저장할 변수
+//
+//    public PrincipalDetails(UserMst userMst, Map<String, Object> attributes) {
+//        // 생성자 구현...
+//
+//        // 인증 제공자 정보를 설정합니다.
+//        this.provider = userMst.getProvider();
+//    }
+//
+//    // getter 메서드로 provider 정보를 반환합니다.
+//    public String getProvider() {
+//        return provider;
+//    }
+
+    public String getProvider() {
+        return user.getProvider();
+    }
 }
