@@ -12,4 +12,7 @@ public class AccountController {
     public String login() {return "account/login";}
     @PostMapping("/login/error")
     public String loginError() {return "account/login_error";}
+
+    @GetMapping("/logout")
+    public String logout() {return "account/logoutpage";}
 }
