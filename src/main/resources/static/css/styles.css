@@ -27,7 +27,6 @@ body,
 }
 
 .user-info {
-  background-color: red;
   height: 50px;
   width: 700px;
   max-width: 90%;
@@ -37,7 +36,16 @@ body,
   justify-content: flex-end;
 }
 
-.login-user {
+.user-name {
+  color: #F0DB4F;
+  font-weight: bold;
+  margin-right: 20px;
+  align-self: center;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.user-email {
   color: white;
   font-weight: bold;
   margin-right: 20px;
