@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/account/login")
                 .loginProcessingUrl("/account/login")
-                .failureForwardUrl("/account/login/error")
+                .failureForwardUrl("/login/error")
 //                .successHandler(adminLoginHandler()) // ADMIN 로그인 핸들러 지정
                 .and()
                 .oauth2Login() //oauth2 로그인 성공 후 가져올 때의 설정들
