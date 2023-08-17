@@ -48,7 +48,9 @@ class MainPageApi {
         $.ajax({
             async: false,
             type: "post",
-            url: `http://localhost:8090/api/typing/result/${quotesId}?speed=${speed}`,
+            url: `http://localhost:8090/api/typing/result/${quotesId}`,
+            contentType: "application/json",
+            data: JSON.stringify({speed}),
             dataType: "json",
             success: response => {
                 responseData = response;
@@ -56,7 +58,7 @@ class MainPageApi {
             error: error => {
                 console.log(error);
             }
-        })
+        });
 
         return responseData;
     }
@@ -139,13 +141,25 @@ class MainPageService {
                     showDenyButton: true,
                     confirmButtonText: 'Save',
                     denyButtonText: `Don't save`,
-                }).then((result) => {
+                }).then(async (result) => {
                     if (result.isConfirmed) {
 //                        const addResult =  MainPageApi.getInstance().addResult(`${typingSpeed}`,this.randomQuoteId);
 //                        addResult(`${typingSpeed}`, this.randomQuoteId);
-const resultData = MainPageApi.getInstance().addResult(`${typingSpeed}`, this.randomQuoteId);
 
-                        console.log(resultData);
+                    const speed = `${typingSpeed}`;
+                    const quotesId = this.randomQuoteId;
+                    console.log(speed);
+                    console.log(quotesId);
+
+                    try {
+                        const response = await MainPageApi.getInstance().addResult(speed, quotesId);
+                        Swal.fire('Saved!', '', 'success');
+                    } catch (error) {
+                        Swal.fire('Error while saving', '', 'error');
+                    }
+
+
+
                         Swal.fire('Saved!', '', 'success')
                     } else if (result.isDenied) {
                         Swal.fire('Changes are not saved', '', 'info')
@@ -158,7 +172,7 @@ const resultData = MainPageApi.getInstance().addResult(`${typingSpeed}`, this.ra
 
     calculateTypingSpeed(totalCharacters, timeTaken) {
         const charactersPerMinute = (totalCharacters / timeTaken) * 60;
-        return charactersPerMinute.toFixed(2);
+        return  Math.round(charactersPerMinute);
     }
 
     handleInput() {

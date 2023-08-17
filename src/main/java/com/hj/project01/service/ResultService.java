@@ -13,14 +13,16 @@ public class ResultService {
 //        return resultRepository.saveResult(resultMst) > 0 ? resultMst.getResultId(): 0;
 //    }
 
-    public void addResult(int speed, int userId, int quotesId) {
+    public int addResult(int speed, int userId, int quotesId) {
         ResultMst resultMst = ResultMst.builder()
                 .speed(speed)
                 .userId(userId)
                 .quotesId(quotesId)
                 .build();
 
-        resultRepository.saveResult(resultMst);
+        int result = resultRepository.saveResult(resultMst);
+
+        return result;
     }
 
 //    public void addResult(int userId, int quotesId) {

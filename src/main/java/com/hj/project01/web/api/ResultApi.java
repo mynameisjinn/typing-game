@@ -5,11 +5,13 @@ import com.hj.project01.service.ResultService;
 import com.hj.project01.entity.ResultMst;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 
 @Api(tags = {"Typing Result API Controller"})
@@ -29,12 +31,19 @@ public class ResultApi {
 
     @PostMapping("/result/{quotesId}")
     public ResponseEntity<?> saveResult(@PathVariable int quotesId,
-                                        @Valid int speed,
+                                        @RequestBody Map<String, Object> requestData,
                                         @AuthenticationPrincipal PrincipalDetails principalDetails){
-        resultService.addResult(speed, quotesId, principalDetails.getUser().getUserId());
-        return ResponseEntity
-                .ok()
-                .body(true);
+//        resultService.addResult(speed, principalDetails.getUser().getUserId(),quotesId);
+
+//        int speed = (int) requestData.get("speed");
+        int speed = Integer.parseInt((String) requestData.get("speed"));
+        int resultId = resultService.addResult(speed, principalDetails.getUser().getUserId(), quotesId);
+
+        if (resultId > 0) {
+            return ResponseEntity.ok().body("Result added successfully. Result ID: " + resultId);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to add result.");
+        }
     }
 
 //    @PostMapping("/result/{quotesId}")
