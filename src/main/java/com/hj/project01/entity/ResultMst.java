@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Data
 @NoArgsConstructor
@@ -14,4 +16,5 @@ public class ResultMst {
     private int speed;
     private int userId;
     private int quotesId;
+    private LocalDateTime saveDate;
 }

@@ -9,13 +9,14 @@
         <result property="userId" column="user_id"></result>
         <result property="quotesId" column="quotes_id"></result>
         <result property="speed" column="speed"></result>
+        <result property="saveDate" column="save_date"></result>
     </resultMap>
     <insert id="saveResult"
             parameterType="com.hj.project01.entity.ResultMst"
             useGeneratedKeys="true"
             keyProperty="resultId">
         insert into result
-        values (0,#{userId},#{quotesId},#{speed})
+        values (0,#{userId},#{quotesId},#{speed}, now())
     </insert>
 
 <!--    <insert id="saveResult"-->
