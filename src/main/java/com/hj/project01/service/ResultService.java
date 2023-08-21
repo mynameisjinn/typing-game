@@ -2,8 +2,12 @@ package com.hj.project01.service;
 
 import com.hj.project01.repository.ResultRepository;
 import com.hj.project01.entity.ResultMst;
+import com.hj.project01.web.dto.SearchReqDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 public class ResultService {
     @Autowired
@@ -25,12 +29,7 @@ public class ResultService {
         return result;
     }
 
-//    public void addResult(int userId, int quotesId) {
-//        ResultMst resultMst = ResultMst.builder()
-//                .userId(userId)
-//                .quotesId(quotesId)
-//                .build();
-//
-//        resultRepository.saveResult(resultMst);
-//    }
+    public List<ResultMst> getResult(SearchReqDto searchReqDto) {
+        return resultRepository.getResult(searchReqDto);
+    }
 }

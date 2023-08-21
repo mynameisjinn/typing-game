@@ -3,6 +3,7 @@ package com.hj.project01.web.api;
 import com.hj.project01.security.PrincipalDetails;
 import com.hj.project01.service.ResultService;
 import com.hj.project01.entity.ResultMst;
+import com.hj.project01.web.dto.SearchReqDto;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,12 +47,16 @@ public class ResultApi {
         }
     }
 
-//    @PostMapping("/result/{quotesId}")
-//    public ResponseEntity<?> saveResult(@PathVariable int quotesId,
-//                                        @AuthenticationPrincipal PrincipalDetails principalDetails){
-//        resultService.addResult(quotesId,principalDetails.getUser().getUserId());
-//        return ResponseEntity
-//                .ok()
-//                .body(true);
-//    }
+
+    @GetMapping("/result")
+    public ResponseEntity<?> getResult (SearchReqDto searchReqDto
+                                        ,@AuthenticationPrincipal PrincipalDetails principalDetails){
+//        if(principalDetails != null) {
+//            searchReqDto.setUserId(principalDetails.getUser().getUserId());
+//        }
+
+        return ResponseEntity
+                .ok()
+                .body(resultService.getResult(searchReqDto));
+    }
 }

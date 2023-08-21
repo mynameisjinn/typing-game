@@ -20,11 +20,6 @@ public class QuotesMst {
 
     private String author;
 
-    private String contentKo;
+    private String content;
 
-    private String contentEn;
-
-    private int lengthKo;
-
-    private int lengthEn;
 }

@@ -13,12 +13,5 @@ public class QuotesReqDto {
     @NotBlank
     private String author;
     @NotBlank
-    private String contentKo;
-    @NotBlank
-    private String contentEn;
-
-    @Min(1)
-    private int lengthKo;
-    @Min(1)
-    private int lengthEn;
+    private String content;
 }
