@@ -37,15 +37,16 @@
             resultMap="ResultMst">
 
             select r.user_id
-                 , q.quotesId
+                 , q.quotes_id
                  , q.category
                  , q.author
                  , q.content
                  , r.speed
+                 , r.save_date
               from result r
               left outer join quotes q
-                on r.quotes_id = q.quotesId
-             where r.user_id = #{user_id};
+                on r.quotes_id = q.quotes_id
+             where r.user_id = #{userId};
 
     </select>
 

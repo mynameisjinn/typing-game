@@ -1,7 +1,11 @@
 window.onload = () => {
+    PrincipalApi.getInstance().getPrincipal();
     MypageService.getInstance().searchResults();
 }
 
+const searchObj = {
+
+}
 class MyPageApi {
     static #instance = null;
     static getInstance() {
@@ -19,6 +23,7 @@ class MyPageApi {
             type: "get",
             url: "http://localhost:8090/api/typing/result",
             contentType: "json",
+            data: searchObj,
             success: response => {
                 responseDate = response;
             },
@@ -45,11 +50,12 @@ class MypageService {
     searchResults(){
         const resultBtn = document.getElementById('myResultBtn');
         const responseData = MyPageApi.getInstance().getResult();
+//        const principal = PrincipalApi.getInstance().getPrincipal();
 
         resultBtn.addEventListener("click", () => {
-            const content = document.createElement('div');
 
-            content.innerHTML = `${responseData}`;
+            console.log("ok");
+            console.log(responseData);
 
         })
     }

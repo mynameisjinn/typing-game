@@ -79,14 +79,14 @@ class MainPageService {
         const responseData = MainPageApi.getInstance().searchQuotes();
         const randomIndex = Math.floor(Math.random() * responseData.length);
         const randomQuote = responseData[randomIndex];
-        const randomQuoteContentKo = randomQuote.contentKo;
+        const randomQuoteContent = randomQuote.content;
 
         this.randomQuoteId = randomQuote.quotesId;
 
         // 값 받기 test
 
         // 랜덤 인용구를 <span> 태그로 나눈다
-        randomQuoteContentKo.split('').forEach(character => {
+        randomQuoteContent.split('').forEach(character => {
             const characterSpan = document.createElement('span')
             characterSpan.innerText = character
             quoteDisplayElement.appendChild(characterSpan)
@@ -96,16 +96,13 @@ class MainPageService {
 
     addEventInput() {
         quoteInputElement.addEventListener('input', () => {
-            const arrayQoute = quoteDisplayElement.querySelectorAll('span')
+            const arrayQuote = quoteDisplayElement.querySelectorAll('span')
             const arrayValue = quoteInputElement.value.split('')
-
-//            const addResult =  MainPageApi.getInstance().addResult()
-//            const quotesId = this.randomQuote.quotesId;
 
             let correct = true
             let charactersTyped = 0
 
-            arrayQoute.forEach((characterSpan, index) => {
+            arrayQuote.forEach((characterSpan, index) => {
                 const character = arrayValue[index]
 
                 if (character == null) {
@@ -143,8 +140,6 @@ class MainPageService {
                     denyButtonText: `Don't save`,
                 }).then(async (result) => {
                     if (result.isConfirmed) {
-//                        const addResult =  MainPageApi.getInstance().addResult(`${typingSpeed}`,this.randomQuoteId);
-//                        addResult(`${typingSpeed}`, this.randomQuoteId);
 
                     const speed = `${typingSpeed}`;
                     const quotesId = this.randomQuoteId;
@@ -222,9 +217,6 @@ class MainPageService {
 
     addReloadButton() {
         reloadElement.onclick = () => {
-//            clearInterval(this.timerInterval);
-//            this.getRandomQuote();
-//            this.isTimerRunning = true
             location.reload();
         }
     }

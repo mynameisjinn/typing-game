@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class SearchReqDto {
-//    private int userId;
+    private int userId;
     private String limit;
 }

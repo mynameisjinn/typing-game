@@ -21,7 +21,7 @@ class PrincipalApi {
             dataType: "json",
             success: response => {
                 responseData = response;
-//                console.log(responseData);
+                console.log(responseData);
             },
             error: error => {
                 console.log(error);
@@ -43,14 +43,12 @@ class PrincipalService {
 
     loadLogin() {
         const userInfoElement = document.getElementById("user-info");
-//        const loginUserElement = document.getElementById("user-email");
-//        const loginUserElement = document.getElementById("user-email");
         const principal =  PrincipalApi.getInstance().getPrincipal();
 
         userInfoElement.innerHTML = `
-            <span class="user-name" id="user-name">${principal.user.name} 님</span>
+            <a href="/mypage" class="user-name" id="user-name">${principal.user.name} 님</a>
             <span class="user-email" id="user-email">${principal.user.username}</span>
-            <a class="logout" id="logout" href="/logout">Logout</a>
+            <a class="logout" id="logout" href="/account/logout">Logout</a>
         `
     }
 }

@@ -51,9 +51,9 @@ public class ResultApi {
     @GetMapping("/result")
     public ResponseEntity<?> getResult (SearchReqDto searchReqDto
                                         ,@AuthenticationPrincipal PrincipalDetails principalDetails){
-//        if(principalDetails != null) {
-//            searchReqDto.setUserId(principalDetails.getUser().getUserId());
-//        }
+        if(principalDetails != null) {
+            searchReqDto.setUserId(principalDetails.getUser().getUserId());
+        }
 
         return ResponseEntity
                 .ok()
