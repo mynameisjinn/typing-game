@@ -26,6 +26,7 @@ class MyPageApi {
             data: searchObj,
             success: response => {
                 responseDate = response;
+                console.log("getMyResult() 실행됨");
             },
             error: error => {
                 console.log(error);

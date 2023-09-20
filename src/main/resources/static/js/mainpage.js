@@ -1,13 +1,3 @@
-window.onload = () => {
-    PrincipalService.getInstance().loadLogin();
-
-    quoteInputElement.disabled = true;
-    MainPageService.getInstance().getRandomQuote();
-    MainPageService.getInstance().addEventInput();
-    MainPageService.getInstance().quoteInputClick();
-    MainPageService.getInstance().addReloadButton();
-}
-
 const quoteDisplayElement = document.getElementById('quoteDisplay');
 const quoteInputElement = document.getElementById('quoteInput');
 const timerElement = document.getElementById('timer');
@@ -132,36 +122,44 @@ class MainPageService {
 
                 this.stopTimer();
 
-                Swal.fire({
-                    title: '게임이 끝났습니다! 결과를 저장하시겠습니까?',
-                    html: `타자 속도: ${typingSpeed} CPM \n`,
-                    showDenyButton: true,
-                    confirmButtonText: 'Save',
-                    denyButtonText: `Don't save`,
-                }).then(async (result) => {
-                    if (result.isConfirmed) {
+                const loginData = PrincipalApi.getInstance().getPrincipal();
+                console.log(loginData);
 
-                    const speed = `${typingSpeed}`;
-                    const quotesId = this.randomQuoteId;
-                    console.log(speed);
-                    console.log(quotesId);
+                if(loginData == null){
+                    Swal.fire(
+                        'Good job!',
+                        `타자 속도: ${typingSpeed} CPM \n`,
+                        'success'
+                      )
+                } else{
 
-                    try {
-                        const response = await MainPageApi.getInstance().addResult(speed, quotesId);
-                        Swal.fire('Saved!', '', 'success');
-                    } catch (error) {
-                        Swal.fire('Error while saving', '', 'error');
-                    }
+                    Swal.fire({
+                        title: '게임이 끝났습니다! 결과를 저장하시겠습니까?',
+                        html: `타자 속도: ${typingSpeed} CPM \n`,
+                        showDenyButton: true,
+                        confirmButtonText: 'Save',
+                        denyButtonText: `Don't save`,
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
 
+                        const speed = `${typingSpeed}`;
+                        const quotesId = this.randomQuoteId;
+                        console.log(speed);
+                        console.log(quotesId);
 
-
-                        Swal.fire('Saved!', '', 'success')
-                    } else if (result.isDenied) {
-                        Swal.fire('Changes are not saved', '', 'info')
-                    }
-                })
+                        try {
+                            const response = await MainPageApi.getInstance().addResult(speed, quotesId);
+                            Swal.fire('Saved!', '', 'success');
+                        } catch (error) {
+                            Swal.fire('Error while saving', '', 'error');
+                        }
+                            Swal.fire('Saved!', '', 'success')
+                        } else if (result.isDenied) {
+                            Swal.fire('Changes are not saved', '', 'info')
+                        }
+                    })
+                }
             }
-
         })
     }
 
@@ -221,7 +219,6 @@ class MainPageService {
         }
     }
 
-
     quoteInputClick() {
         if (quoteInputElement.disabled == true) {
             const handleKeyDown = () => {
@@ -231,7 +228,9 @@ class MainPageService {
             quoteInputElement.addEventListener('keydown',handleKeyDown);
             quoteInputElement.disabled = false;
         }
-
-
     }
 }
+
+
+
+

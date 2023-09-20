@@ -46,6 +46,8 @@ public class AccountApi {
             principalDetails.getAuthorities().forEach(role -> {
                 log.info("로그인된 사용자의 권한: {}", role.getAuthority());
             });
+        }else{
+                log.info("로그인된 사용자 존재하지 않음");
         }
 
         return ResponseEntity

@@ -1,7 +1,3 @@
-//window.onload = () => {
-//    PrincipalService.getInstance().loadLogin();
-//}
-
 class PrincipalApi {
     static #instance = null;
     static getInstance() {

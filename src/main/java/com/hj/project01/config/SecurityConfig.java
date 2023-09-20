@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.httpBasic().disable();
         http.authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/").authenticated()
+
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutUrl("/account/logout")
-                .logoutSuccessUrl("/account/login")
+                .logoutSuccessUrl("/")
                 .and()
                 .oauth2Login() //oauth2 로그인 성공 후 가져올 때의 설정들
                 .userInfoEndpoint() // 소셜로그인 성공 시 후속 조치를 진행할 UserService 인터페이스 구현체 등록
